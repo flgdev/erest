@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<body>
+	<ui:composition>
+		<h:form id="men">
+			<p:growl id="grw" showDetail="true" />
+			<p:panel header="Menu">
+				<p:accordionPanel multiple="true" activeIndex="0,1,2,3,4,5">
+					<p:tab title="Soups">
+						<p:dataGrid var="item" value="#{dishBean.catDishes(0)}"
+							columns="4" rows="12">
+							<p:panel header="#{item.name}">
+								<h:panelGrid style="text-align:center;width:100%">
+									<p:graphicImage style="width:150px;height:150px"
+										url="resources/pic/#{item.id}.jpg" />
+									<h:outputText value="$#{item.price}" />
+									<p:commandButton value="Order" update=":frm,:men:grw"
+										action="#{orderBean.addToOrder(item)}" />
+								</h:panelGrid>
+							</p:panel>
+						</p:dataGrid>
+					</p:tab>
+
+					<p:tab title="Salads">
+						<p:dataGrid var="item" value="#{dishBean.catDishes(1)}"
+							columns="4" rows="12">
+							<p:panel header="#{item.name}">
+								<h:panelGrid style="text-align:center;width:100%">
+									<p:graphicImage style="width:150px;height:150px"
+										url="resources/pic/#{item.id}.jpg" />
+									<h:outputText value="$#{item.price}" />
+									<p:commandButton value="Order" update=":frm"
+										action="#{orderBean.addToOrder(item)}" />
+								</h:panelGrid>
+							</p:panel>
+						</p:dataGrid>
+					</p:tab>
+
+					<p:tab title="Meats">
+						<p:dataGrid var="item" value="#{dishBean.catDishes(2)}"
+							columns="4" rows="12">
+							<p:panel header="#{item.name}">
+								<h:panelGrid style="text-align:center;width:100%">
+									<p:graphicImage style="width:150px;height:150px"
+										url="resources/pic/#{item.id}.jpg" />
+									<h:outputText value="$#{item.price}" />
+									<p:commandButton value="Order" update=":frm"
+										action="#{orderBean.addToOrder(item)}" />
+								</h:panelGrid>
+							</p:panel>
+						</p:dataGrid>
+					</p:tab>
+
+					<p:tab title="Beverages">
+						<p:dataGrid var="item" value="#{dishBean.catDishes(3)}"
+							columns="4" rows="12">
+							<p:panel header="#{item.name}">
+								<h:panelGrid style="text-align:center;width:100%">
+									<p:graphicImage style="width:150px;height:150px"
+										url="resources/pic/#{item.id}.jpg" />
+									<h:outputText value="$#{item.price}" />
+									<p:commandButton value="Order" update=":frm"
+										action="#{orderBean.addToOrder(item)}" />
+								</h:panelGrid>
+							</p:panel>
+						</p:dataGrid>
+					</p:tab>
+
+					<p:tab title="Desserts">
+						<p:dataGrid var="item" value="#{dishBean.catDishes(4)}"
+							columns="4" rows="12">
+							<p:panel header="#{item.name}">
+								<h:panelGrid style="text-align:center;width:100%">
+									<p:graphicImage style="width:150px;height:150px"
+										url="resources/pic/#{item.id}.jpg" />
+									<h:outputText value="$#{item.price}" />
+									<p:commandButton value="Order" update=":frm"
+										action="#{orderBean.addToOrder(item)}" />
+								</h:panelGrid>
+							</p:panel>
+						</p:dataGrid>
+					</p:tab>
+				</p:accordionPanel>
+			</p:panel>
+		</h:form>
+		<br />
+		<h:form id="frm">
+			<p:growl id="grw2" showDetail="true" />
+			<p:panel style="overflow:hidden" header="Order">
+				<p:dataTable var="item" id="ord" sortBy="#{item.tmp}"
+					value="#{orderBean.items}">
+					<p:column style="width:10%;" headerText="Preview">
+						<p:graphicImage style="width:75px;height:75px"
+							url="resources/pic/#{item.id}.jpg" />
+					</p:column>
+
+					<p:column style="width:67%;" headerText="Name">
+						<h:outputText value="#{item.name}" />
+					</p:column>
+
+					<p:column style="width:10%;" headerText="Price">
+						<h:outputText value="$#{item.price}" />
+					</p:column>
+
+					<p:column style="width:13%;" headerText="Cancel">
+						<p:commandButton action="#{orderBean.removeFromOrder(item)}"
+							update=":frm" value="Cancel" />
+					</p:column>
+
+					<p:summaryRow>
+						<p:column colspan="2" style="text-align:right">
+							<h:outputText value="Total:" />
+						</p:column>
+						<p:column colspan="2">
+							<h:outputText value="$#{orderBean.total}" />
+						</p:column>
+					</p:summaryRow>
+				</p:dataTable>
+				<p:panelGrid columns="3" style="width:50%;float:right">
+					<h:outputText value="Select table and confirm order: " />
+					<p:selectOneMenu value="#{orderBean.tablenum}">
+						<f:selectItem itemLabel="1" itemValue="1" />
+						<f:selectItem itemLabel="2" itemValue="2" />
+						<f:selectItem itemLabel="3" itemValue="3" />
+						<f:selectItem itemLabel="4" itemValue="4" />
+						<f:selectItem itemLabel="5" itemValue="5" />
+						<f:selectItem itemLabel="6" itemValue="6" />
+						<f:selectItem itemLabel="7" itemValue="7" />
+						<f:selectItem itemLabel="8" itemValue="8" />
+						<f:selectItem itemLabel="9" itemValue="9" />
+					</p:selectOneMenu>
+					<p:commandButton style="font-size:16px" action="#{orderBean.createOrder()}"
+						disabled="#{orderBean.itemsSize() eq 0}" value="Confirm" ajax="false" />
+				</p:panelGrid>
+			</p:panel>
+		</h:form>
+	</ui:composition>
+</body>
+</html>

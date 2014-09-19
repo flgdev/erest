@@ -1,0 +1,41 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="resources/tmp.xhtml">
+	<ui:define name="content">
+
+		<h:form id="frm">
+			<p:panel style="overflow:hidden" header="Order confirmed">
+				<p:dataTable var="item" id="ord" sortBy="#{item.tmp}"
+					value="#{orderBean.items}">
+					<p:column style="width:10%;" headerText="Preview">
+						<p:graphicImage style="width:75px;height:75px"
+							url="resources/pic/#{item.id}.jpg" />
+					</p:column>
+
+					<p:column style="width:80%;" headerText="Name">
+						<h:outputText value="#{item.name}" />
+					</p:column>
+
+					<p:column style="width:10%;" headerText="Price">
+						<h:outputText value="$#{item.price}" />
+					</p:column>
+
+					<p:summaryRow>
+						<p:column colspan="2" style="text-align:right">
+							<h:outputText value="Total:" />
+						</p:column>
+						<p:column colspan="1">
+							<h:outputText value="$#{orderBean.total}" />
+						</p:column>
+					</p:summaryRow>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

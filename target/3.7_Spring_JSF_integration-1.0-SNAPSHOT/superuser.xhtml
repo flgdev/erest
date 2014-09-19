@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="resources/tmp.xhtml">
+	<ui:define name="content">
+		<h:form id="frm">
+			<p:growl id="grw" showDetail="true" />
+			<p:dataTable id="dt" rendered="#{loginBean.right('superuser')}" var="item" value="#{workerBean.workers}">
+				<f:facet name="header">
+           		Workers list
+       		</f:facet>
+				<p:column headerText="Name">
+					<h:outputText value="#{item.name}" />
+				</p:column>
+				<p:column headerText="Password">
+					<h:outputText value="********" />
+				</p:column>
+				<p:column headerText="Role">
+					<h:outputText value="#{item.role}" />
+				</p:column>
+				<p:column headerText="Action">
+					<p:commandButton action="#{workerBean.deleteWorker(item.id)}"
+					 style="width:229px" update=":frm" value="Remove" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+		<h:form>		
+			<p:panelGrid columns="4">
+				<p:inputText style="width:218px" value="#{workerBean.name}" />
+				<p:inputText style="width:219px" value="#{workerBean.password}" />
+				<p:selectOneMenu style="width:227px" value="#{workerBean.role}">
+					<f:selectItems value="#{workerBean.roles}" var="man"
+						itemLabel="#{man}" itemValue="#{man}" />
+				</p:selectOneMenu>
+				<p:commandButton style="width:228px" update=":frm" action="#{workerBean.createWorker}" value="Create" />
+			</p:panelGrid>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="resources/tmp.xhtml">
+	<ui:define name="content">
+		<h:form id="frm">
+			<p:growl id="msg" showDetail="true" />
+			<p:dataTable id="dt" rendered="#{loginBean.right('kitchen')}"
+				var="item" value="#{orderitemBean.pending}">
+				<f:facet name="header">
+           		Pending list
+       		</f:facet>
+				<p:column headerText="Dish">
+					<p:graphicImage style="width:75px;height:75px"
+						url="resources/pic/#{item.dish.id}.jpg" />
+				</p:column>
+				<p:column headerText="Dish">
+					<h:outputText value="#{item.dish.name}" />
+				</p:column>
+				<p:column headerText="Table">
+					<h:outputText value="#{item.order.tablenum}" />
+				</p:column>
+				<p:column headerText="Time">
+					<h:outputText value="#{item.order.dt}">
+						<f:convertDateTime pattern="M-d HH:mm" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Confirm">
+					<p:commandButton action="#{orderitemBean.checkDone(item.id)}"
+						 update=":frm" value="Done" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

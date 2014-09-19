@@ -1,0 +1,83 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="resources/tmp.xhtml">
+	<ui:define name="content">
+		<h:form>
+			<p:panelGrid rendered="#{loginBean.right('analytic')}" columns="3" style="width:100%">
+				<p:column>
+					<p:outputLabel for="button" value="From: " />
+					<p:calendar id="button" value="#{analyticBean.from}"
+						showOn="button" />
+				</p:column>
+				<p:column>
+					<p:outputLabel for="button" value="To : " />
+					<p:calendar id="button2" value="#{analyticBean.to}" showOn="button" />
+				</p:column>
+				<p:column>
+					<p:commandButton action="#{analyticBean.refreshReport}"
+						value="Submit" update="bdish,bday" />
+				</p:column>
+			</p:panelGrid>
+		<br />
+
+		<p:dataTable id="bdish" var="item" value="#{analyticBean.byDish}"
+			sortBy="#{item.tmp}">
+			<f:facet name="header">
+           		Report by dishes
+       		</f:facet>
+			<p:column headerText="Dish">
+				<h:outputText value="#{item.title}" />
+			</p:column>
+			<p:column headerText="Orders">
+				<h:outputText value="#{item.orders}" />
+			</p:column>
+			<p:column headerText="Amount">
+				<h:outputText value="$#{item.sum}" />
+			</p:column>
+			<p:summaryRow>
+				<p:column>
+					<h:outputText value="Total:" />
+				</p:column>
+				<p:column>
+					<h:outputText value="#{analyticBean.total.orders}" />
+				</p:column>
+				<p:column>
+					<h:outputText value="$#{analyticBean.total.sum}" />
+				</p:column>
+			</p:summaryRow>
+		</p:dataTable>
+		<br />
+		<p:dataTable id="bday" var="item" value="#{analyticBean.byDay}"
+			sortBy="#{item.tmp}">
+			<f:facet name="header">
+           		Report by days
+       		</f:facet>
+			<p:column headerText="Day">
+				<h:outputText value="#{item.title}" />
+			</p:column>
+			<p:column headerText="Orders">
+				<h:outputText value="#{item.orders}" />
+			</p:column>
+			<p:column headerText="Amount">
+				<h:outputText value="$#{item.sum}" />
+			</p:column>
+			<p:summaryRow>
+				<p:column>
+					<h:outputText value="Total:" />
+				</p:column>
+				<p:column>
+					<h:outputText value="#{analyticBean.total.orders}" />
+				</p:column>
+				<p:column>
+					<h:outputText value="$#{analyticBean.total.sum}" />
+				</p:column>
+			</p:summaryRow>
+		</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

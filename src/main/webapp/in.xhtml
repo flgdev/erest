@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="resources/tmp.xhtml">
+	<ui:define name="content">
+
+<h:form id="frm" style=""><br />
+	<p:growl id="grw" showDetail="true" />
+	<p:panelGrid columns="2" style="margin: 0 auto">
+		<h:outputText value="Username: " />
+		<p:inputText style="font-size:16px" value="#{loginBean.name}"
+			size="20" />
+		<h:outputText value="Password: " />
+		<p:password style="font-size:16px;"
+			value="#{loginBean.password}" size="20" id="nonFeedback" />
+			<br />
+		<p:commandButton style="font-size:16px" action="#{loginBean.login}"
+			update=":frm" value="Login" />
+	</p:panelGrid><br />
+</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

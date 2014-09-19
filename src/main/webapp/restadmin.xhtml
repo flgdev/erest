@@ -1,0 +1,99 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="resources/tmp.xhtml">
+	<ui:define name="content">
+		<h:form rendered="#{loginBean.right('restadmin')}" enctype="multipart/form-data" id="form">
+			<p:growl id="msgs" showDetail="true" />
+			<p:dataTable var="item" value="#{dishBean.dishes}" editable="true"
+				editMode="cell" widgetVar="cellCars">
+				<f:facet name="header">
+           		Restaurant menu
+      		</f:facet>
+
+				<p:ajax event="cellEdit" listener="#{dishBean.onCellEdit}"
+					update=":form:msgs" />
+
+				<p:column headerText="Picture">
+					<p:cellEditor>
+						<f:facet name="output">
+							<p:graphicImage style="width:75px;height:75px" url="resources/pic/#{item.id}.jpg" />
+						</f:facet>
+						<f:facet name="input">
+							<p:fileUpload style="width:145px" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Name">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{item.name}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText id="modelInput" value="#{item.name}"
+								style="width:96%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Price">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="$#{item.price}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{item.price}" style="width:96%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Category">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{item.category}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:selectOneMenu value="#{item.category}" style="width:100%">
+								<f:selectItems value="#{dishBean.categories}" var="man"
+									itemLabel="#{man}" itemValue="#{man}" />
+							</p:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Kitchen-made">
+					<p:selectBooleanCheckbox value="#{item.kitchen}">
+						<p:ajax event="valueChange" update=":form:msgs"
+							listener="#{dishBean.onKBoxEdit(item)}" />
+					</p:selectBooleanCheckbox>
+				</p:column>
+
+				<p:column headerText="Action">
+					<p:commandButton style="width:145px" action="#{dishBean.deleteDish(item.id)}"
+						 update=":form" value="Remove" />
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+		<h:form>
+			<p:panelGrid columns="6">
+				<p:fileUpload style="width:145px" mode="simple" />
+				<p:inputText style="width:136px" value="#{dishBean.name}" />
+				<p:inputText style="width:135px" value="#{dishBean.price}" />
+				<p:selectOneMenu style="width:144px" value="#{dishBean.category}">
+					<f:selectItems value="#{dishBean.categories}" var="man"
+						itemLabel="#{man}" itemValue="#{man}" />
+				</p:selectOneMenu>
+				<p:selectBooleanCheckbox style="width:145px"
+					value="#{dishBean.kitchen}" />
+				<p:commandButton style="width:145px" action="#{dishBean.createDish}"
+					value="Submit" update=":form" />
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
